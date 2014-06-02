@@ -1,0 +1,36 @@
+<%= link_to "New Support Request", new_support_request_path %>
+
+<%= form_tag support_requests_path, method: :get do %>
+  <%= text_field_tag :search, params[:search] %>
+  <%= submit_tag %>
+<% end %>
+
+<table border="3">
+  <tr>
+    <th>Title</th>
+    <th>Email</th>
+    <th>Description</th>
+    <th>Department</th>
+    <th>Actions</th>
+  </tr>
+
+  <% @support_requests.each do |sr| %>
+    <tr>
+      <td><%= sr.title %></td>
+      <td><%= sr.email %></td>
+      <td><%= sr.description %></td>
+      <td><%= sr.department %></td>
+      <td>
+        <% if sr.done? %>
+          <%= link_to "UnDone", support_request_path(sr, support_request: {done: false}), method: :patch %>
+        <% else %>
+          <%= link_to "Done", support_request_path(sr, support_request: {done: true}), method: :patch %>
+        <% end %>
+
+      </td>
+    </tr>
+  <% end %>
+
+</table>
+
+<%= will_paginate @support_requests %>
