@@ -3,7 +3,8 @@ class SupportRequestsController < ApplicationController
 
   def index
     @support_requests = SupportRequest.search(params[:search])
-                .paginate(page: params[:page], per_page: 10)
+                .paginate(page: params[:page], per_page: 10).
+                order("done ASC")
   end
 
   def new
